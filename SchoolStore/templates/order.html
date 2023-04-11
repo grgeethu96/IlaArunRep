@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order|E-Store</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+<style>
+            input{
+                height:40px;
+                 margin-top: 1%;
+                 margin-left: 1%;
+            }
+            {
+	            box-sizing: border-box;
+	            margin: 0;
+	            padding: 0;
+	            font-family: Raleway, sans-serif;
+            }
+
+            body {
+	            background: linear-gradient(90deg, #D6F1EC, #776BCC);
+	            text-align:center;
+	            margin: 40px;
+                padding: 0px;
+	            height: 500%;
+                width: 90%;
+            }
+            h2{
+                text-align:center;
+            }
+            .screen{
+            background: linear-gradient(90deg, #5D54A4, #7C78B8);
+                position: relative;
+                height: 600px;
+	            width: 360px;
+	            box-shadow: 0px 0px 24px #5C5696;
+                margin:auto;
+            }
+        </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="screen">
+        <h4>Place the Order</h4>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Name"><br>
+        <input type="number" name="age" placeholder="Age"><br>
+<!--        <label for="phonenumber">Phone Number</label>-->
+        <input type="number" name="phonenumber" placeholder="Phone Number"><br>
+<!--        <label for="email">Email</label>-->
+        <input type="email" name="email" placeholder="Email"><br>
+        <input type="text" name="address" placeholder="Address"><br>
+        <input type="date" name="dob" placeholder="Date Of Birth"><br>
+        <b><label for="gender">Gender</label></b>
+        <input type="radio" name="gender" value="male" >Male
+        <input type="radio" name="gender" value="female">Female<br>
+        <b><label for="department">Department</label></b>
+        <select name="department" id="department" class="form-control">
+            <option value="0">--Select Department--</option>
+            {% for item in department  %}
+            <option value="{{ item.id }}">{{ item.name }}</option>
+            {% endfor %}
+        </select>
+    <br/>
+        <b><label for="department">Courses</label></b>
+        <select name="course" id="course" class="form-control">
+            <option value="0">--Select course--</option>
+            {% for item in course  %}
+            <option value="{{item.department.id}}">{{ item.name }}</option>
+            {% endfor %}
+        </select><br>
+
+
+
+        <b><label for="purpose" style="height:40px;">Purpose</label></b>
+        <select id="purpose">
+            <option value="options">Select Options</option>
+            <option value="enwuiry">For Enquiry</option>
+            <option value="orderplaced">Place Order</option>
+            <option value="return">Return</option>
+        </select><br>
+        <b><label for="materials_provide" style="height:40px;">Materials Provide</label></b><br>
+        <input type="checkbox" id="notebook" name="notebook" value="Note Book">
+        <label for="notebook">Note Book</label>
+        <input type="checkbox" id="pencil" name="pencil" value="Pencil">
+        <label for="pencil">Pencil</label>
+        <input type="checkbox" id="pen" name="pen" value="Pen">
+        <label for="pen">Pen</label>
+        <input type="checkbox" id="a4sheet" name="a4sheet" value="A4 Sheet">
+        <label for="a4sheet">A4 Sheet</label><br>
+
+
+        <input type="submit">
+
+    </form>
+</div>
+    </div>
+    <div>
+        {% for message in messages %}
+            <h3>{{ message }}</h3>
+        {% endfor %}
+    </div>
+<div style="height:40px;">
+    <button><a href="{% url 'home' %}">Home</a></button>
+    <button><a href="{% url 'logout' %}">Logout</a></button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+$(document).ready(function(){
+
+ var department = $("#department");
+ var course = $("#course");
+ var $options = course.find('option');
+ department.on('change',function(){
+    course.html($options.filter('[value="'+ this.value  +'"]'));
+ }).trigger('change');
+});
+</script>
+
+</body>
+</html>
